@@ -1,0 +1,15 @@
+[package]
+name = "apple_score"
+version = "0.1.0"
+authors = []
+edition = "2018"
+
+[dependencies]
+amethyst = "0.15.3"
+rand = "0.7.3"
+
+[features]
+default = ["metal"]
+empty = ["amethyst/empty"]
+metal = ["amethyst/metal"]
+vulkan = ["amethyst/vulkan"]
