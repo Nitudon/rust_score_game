@@ -1,11 +1,10 @@
 use amethyst::{
     core::transform::Transform,
     prelude::*,
-    renderer::Camera,
+    renderer::{Camera, SpriteRender},
     core::math::Vector3,
 };
 use crate::asset::sprite_sheet;
-use amethyst::renderer::SpriteRender;
 
 pub const SCREEN_HEIGHT: f32 = 540.0;
 pub const SCREEN_WIDTH: f32 = 960.0;

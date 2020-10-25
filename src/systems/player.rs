@@ -1,14 +1,11 @@
 use amethyst::{
-    core::ecs::{System, WriteStorage, Read},
-    input::{InputHandler, StringBindings},
-    core::Transform,
+    core::{num, Transform},
+    core::ecs::{System, WriteStorage, Read, Join},
+    input::{InputHandler, StringBindings, VirtualKeyCode},
+    shred::ReadExpect
 };
 use crate::components::player;
-use amethyst::core::ecs::Join;
-use amethyst::input::VirtualKeyCode;
 use crate::components::object::Object;
-use amethyst::core::num;
-use amethyst::shred::ReadExpect;
 
 pub struct PlayerSystem;
 

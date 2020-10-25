@@ -1,6 +1,8 @@
-use amethyst::core::num::abs;
-use amethyst::core::math::Vector2;
-use amethyst::core::Transform;
+use amethyst::{
+    core::num::abs,
+    core::math::Vector2,
+    core::Transform 
+};
 
 pub trait Object {
     fn get_size(&self) -> &Vector2<f32>;

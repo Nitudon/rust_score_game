@@ -1,7 +1,9 @@
-use amethyst::{GameDataBuilder, Application};
-use amethyst::utils::application_root_dir;
-use amethyst::core::TransformBundle;
-use amethyst::renderer::{RenderingBundle, RenderToWindow, RenderFlat2D, types::DefaultBackend};
+use amethyst::{
+    {GameDataBuilder, Application},
+    utils::application_root_dir,
+    core::TransformBundle,
+    renderer::{RenderingBundle, RenderToWindow, RenderFlat2D, types::DefaultBackend}, 
+};
 use crate::bundle::GameBundle;
 use crate::state::state::GameState;
 
@@ -11,6 +13,7 @@ mod input;
 mod components;
 mod state;
 mod systems;
+mod util;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());

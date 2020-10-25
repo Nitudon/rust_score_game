@@ -2,10 +2,10 @@ use amethyst::{
     Result,
     core::bundle::{SystemBundle},
     ecs::DispatcherBuilder,
+    prelude::World
 };
 use crate::systems::*;
 use crate::systems::block::BlockSystem;
-use amethyst::prelude::World;
 use crate::systems::score::ScoreSystem;
 
 pub struct GameBundle;

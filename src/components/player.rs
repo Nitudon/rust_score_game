@@ -1,15 +1,14 @@
 use amethyst::{
     core::Transform,
-    core::ecs::DenseVecStorage,
+    core::ecs::{LazyUpdate, Entities, DenseVecStorage, Component},
     core::math::{Vector3, Vector2},
     prelude::*,
     renderer::SpriteRender,
+    shred::ReadExpect
 };
 
 use crate::asset::sprite_sheet;
 use crate::components::object::Object;
-use amethyst::core::ecs::{LazyUpdate, Entities, Component};
-use amethyst::shred::ReadExpect;
 
 #[derive(Clone)]
 pub struct PlayerResource {

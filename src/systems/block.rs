@@ -1,8 +1,11 @@
+use amethyst::{
+    core::ecs::{Join, Entities, System, WriteStorage, LazyUpdate}, 
+    core::{Time, Transform}, 
+    shred::ReadExpect,
+};
+
 use crate::components::block::*;
 use crate::components::score::*;
-use amethyst::core::ecs::{Join, Entities, System, WriteStorage, LazyUpdate};
-use amethyst::core::{Time, Transform};
-use amethyst::shred::ReadExpect;
 
 pub struct BlockSystem;
 

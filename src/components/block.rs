@@ -1,17 +1,16 @@
 use amethyst::{
     core::Transform,
-    core::ecs::DenseVecStorage,
-    core::ecs::Component,
+    core::ecs::{LazyUpdate, Entities, DenseVecStorage, Component},
+    core::math::{Vector3, Vector2},
+    shred::ReadExpect,
     prelude::*,
     renderer::SpriteRender,
 };
+use rand::prelude::*;
 
 use crate::asset::sprite_sheet;
 use crate::components::object::Object;
-use amethyst::core::math::{Vector3, Vector2};
-use rand::prelude::*;
-use amethyst::core::ecs::{LazyUpdate, Entities};
-use amethyst::shred::ReadExpect;
+use crate::util::rand::*;
 
 const BLOCK_HEIGHT: f32 = 60.0;
 const BLOCK_WIDTH: f32 = 60.0;
@@ -25,6 +24,10 @@ const BLOCK_START_Y: f32 = 540.0;
 pub struct BlockResource {
     pub block: Block,
     pub sprite: SpriteRender,
+}
+
+impl Component for BlockResource {
+    type Storage = DenseVecStorage<Self>;
 }
 
 #[derive(Clone)]
@@ -68,14 +71,15 @@ impl Component for Block {
     type Storage = DenseVecStorage<Self>;
 }
 
-pub fn create_block(resource: &ReadExpect<BlockResource>, update: &ReadExpect<LazyUpdate>, entities: &Entities) {
+pub fn create_block(resource: &BlockResource, update: &LazyUpdate, entities: &Entities) {
     let entity = entities.create();
+    
     let mut block_transform = Transform::default();
-    let mut rng = rand::thread_rng();
-    let rnd_position : f32 = rng.gen();
+    let rnd_position = create_rand_range();
     let block_position_x: f32 = BLOCK_START_X_MIN + (BLOCK_START_X_MAX - BLOCK_START_X_MIN) * rnd_position;
     block_transform.set_translation_xyz(block_position_x, BLOCK_START_Y, 0.0);
-    let rnd_speed: f32 = rng.gen();
+    
+    let rnd_speed = create_rand_range();
     let mut block = resource.block.clone();
     block.set_velocity(0., rnd_speed * BLOCK_SPEED_BASE);
     block_transform.set_scale(Vector3::new(BLOCK_SCALE, BLOCK_SCALE, 1.0));
