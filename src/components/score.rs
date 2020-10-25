@@ -4,6 +4,7 @@ use amethyst::ecs::prelude::*;
 pub struct Score {
     pub score : i32,
     pub time : f32,
+    pub is_dead: bool,
 }
 
 impl Score {
@@ -11,6 +12,7 @@ impl Score {
         Score {
             score : 0,
             time : 0., 
+            is_dead : false,
         }
     }
 }
