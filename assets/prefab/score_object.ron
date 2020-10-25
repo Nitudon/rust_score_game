@@ -1,0 +1,21 @@
+#![enable(implicit_some)]
+Prefab(
+    entities: [
+        // apple
+        PrefabEntity(
+            data: Apple (
+                name: Named(name: "Apple"),
+                asset_sprite_sheet_id: "apple_spritesheet",
+                asset_sprite_sheet_number: 0,
+            ),
+        ),
+        // rock
+        PrefabEntity(
+            data: Rock (
+                name: Named(name: "Rock"),
+                asset_sprite_sheet_id: "rock_spritesheet",
+                asset_sprite_sheet_number: 0,
+            ),
+        ),
+    ],
+)
