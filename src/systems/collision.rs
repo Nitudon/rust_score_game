@@ -20,7 +20,7 @@ impl<'a> System<'a> for CollisionSystem {
         Entities<'a>,
     );
 
-    fn run(&mut self, (score, transforms, blocks, players, entities): Self::SystemData) {
+    fn run(&mut self, (mut score, transforms, blocks, players, entities): Self::SystemData) {
         for (player_transform, player) in (&transforms, &players).join() {
             for (block_transform, block, entity) in (&transforms, &blocks, &*entities).join() {
                 let is_hit = is_hit(player_transform, &player.size, block_transform, &block.size);

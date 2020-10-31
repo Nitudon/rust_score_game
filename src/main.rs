@@ -5,7 +5,8 @@ use amethyst::{
     renderer::{RenderingBundle, RenderToWindow, RenderFlat2D, types::DefaultBackend}, 
 };
 use crate::bundle::GameBundle;
-use crate::state::state::GameState;
+use crate::state::game::Game;
+use crate::state::title::Title;
 
 mod bundle;
 mod asset;
@@ -33,6 +34,6 @@ fn main() -> amethyst::Result<()> {
         )?
         .with_bundle(input::bundle::create_input_bundle())?;
 
-    Application::new(assets_dir, GameState, game_data)?.run();
+    Application::new(assets_dir, Title, game_data)?.run();
     Ok(())
 }
