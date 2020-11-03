@@ -5,12 +5,19 @@ use amethyst::{
     StateEvent, 
     Trans, 
     SimpleTrans,
+    input::{is_mouse_button_down},
     ui::{Anchor, UiLabelBuilder, UiEvent, UiCreator},
+    prelude::*
 };
 use crate::components::*;
+use amethyst::renderer::rendy::wsi::winit::MouseButton;
+use amethyst::core::ecs::shred::ResourceId;
+use amethyst::core::ecs::Entity;
 
 #[derive(Default)]
-pub struct Title;
+pub struct Title {
+    title_label : Option<Entity>
+}
 
 impl SimpleState for Title {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
@@ -22,20 +29,18 @@ impl SimpleState for Title {
         score::initialize(world);
         
         world.exec(|mut creator: UiCreator<'_>| {
-            
-            creator.create("ui/title/screen.ron", ());
+            self.title_label = Some(creator.create("ui/title/screen.ron", ()));
         });
     }
 
-    fn handle_event(&mut self, _: StateData<'_, GameData<'_, '_>>, event: StateEvent) -> SimpleTrans {
-        match &event {
-            StateEvent::Ui(ui_event) => {
-                Trans::None
+    fn handle_event(&mut self, data: StateData<'_, GameData<'_, '_>>, event: StateEvent) -> SimpleTrans {
+        let StateData { mut world, .. } = data;
+        if let StateEvent::Window(event) = &event {
+            if is_mouse_button_down(&event, MouseButton::Left) {
+                let mut entity = self.title_label.unwrap();
+                world.delete_entity(entity);
             }
-            StateEvent::Input(input) => {
-                Trans::None
-            }
-            _ => Trans::None
         }
+        Trans::None
     }
 }

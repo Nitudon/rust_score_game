@@ -38,6 +38,6 @@ fn main() -> amethyst::Result<()> {
             .with_plugin(RenderFlat2D::default())
         )?;
 
-    Application::new(assets_dir, Title, game_data)?.run();
+    Application::new(assets_dir, Title::default(), game_data)?.run();
     Ok(())
 }
