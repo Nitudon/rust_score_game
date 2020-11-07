@@ -13,6 +13,7 @@ use crate::components::*;
 use amethyst::renderer::rendy::wsi::winit::MouseButton;
 use amethyst::core::ecs::shred::ResourceId;
 use amethyst::core::ecs::Entity;
+use crate::state::game::Game;
 
 #[derive(Default)]
 pub struct Title {
@@ -39,6 +40,7 @@ impl SimpleState for Title {
             if is_mouse_button_down(&event, MouseButton::Left) {
                 let mut entity = self.title_label.unwrap();
                 world.delete_entity(entity);
+                return Trans::Switch(Box::new(Game::default()))
             }
         }
         Trans::None
