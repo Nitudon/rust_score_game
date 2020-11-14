@@ -27,6 +27,10 @@ impl<'a> System<'a> for ScoreSystem {
     );
 
     fn run(&mut self, (mut score, apple_resource, rock_resource, time, lazy_update, entities): Self::SystemData) {
+        if !score.is_start {
+            return;
+        }
+        
         score.time += time.delta_seconds();
         let interval = (score.time as i32) / BLOCK_SPAWN_INTERVAL;
         if self.spawn_interval < interval

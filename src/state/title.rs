@@ -14,6 +14,7 @@ use amethyst::renderer::rendy::wsi::winit::MouseButton;
 use amethyst::core::ecs::shred::ResourceId;
 use amethyst::core::ecs::Entity;
 use crate::state::game::Game;
+use crate::components::score::Score;
 
 #[derive(Default)]
 pub struct Title {

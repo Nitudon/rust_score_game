@@ -6,6 +6,7 @@ use amethyst::{
 };
 use crate::components::player;
 use crate::components::object::Object;
+use crate::components::score::Score;
 
 pub struct PlayerSystem;
 
@@ -16,10 +17,15 @@ impl<'a> System<'a> for PlayerSystem {
     type SystemData = (
         WriteStorage<'a, Transform>, 
         WriteStorage<'a, player::Player>,
+        ReadExpect<'a, Score>,
         ReadExpect<'a, InputHandler<StringBindings>>, 
     );
 
-    fn run(&mut self, (mut transforms, mut players, input): Self::SystemData) {
+    fn run(&mut self, (mut transforms, mut players, score, input): Self::SystemData) {
+        if !score.is_start {
+            return;
+        }
+        
         for (transform, player) in (&mut transforms, &mut players).join() {
             if input.key_is_down(VirtualKeyCode::Right) {
                 player.set_velocity(6., 0.);

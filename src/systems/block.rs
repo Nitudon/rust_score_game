@@ -13,10 +13,15 @@ impl<'a> System<'a> for BlockSystem {
     type SystemData = (
         WriteStorage<'a, Transform>,
         WriteStorage<'a, Block>,
+        ReadExpect<'a, Score>,
         Entities<'a>,
     );
 
-    fn run(&mut self, (mut transforms, mut blocks, entities): Self::SystemData) {
+    fn run(&mut self, (mut transforms, mut blocks, score, entities): Self::SystemData) {
+        if !score.is_start {
+            return;
+        }
+        
         for (transform, block, entity) in (&mut transforms, &mut blocks, &* entities).join()  {
             let y = transform.translation().y;
             let velocity = block.velocity.y;

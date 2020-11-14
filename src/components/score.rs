@@ -1,9 +1,11 @@
 use amethyst::ecs::prelude::*;
+use amethyst::core::math::Id;
 
-#[derive(Clone)]
+#[derive(Default,Clone)]
 pub struct Score {
     pub score : i32,
     pub time : f32,
+    pub is_start : bool,
     pub is_dead: bool,
 }
 
@@ -12,16 +14,17 @@ impl Score {
         Score {
             score : 0,
             time : 0., 
+            is_start : false,
             is_dead : false,
         }
     }
 }
 
 impl Component for Score {
-    type Storage = DenseVecStorage<Self>;
+    type Storage = VecStorage<Self>;
 }
 
-pub fn initialize(world: &mut World) {
+pub fn initialize(world: &mut World){
     let mut score_component = Score::new();
-    world.insert(score_component.clone());
+    world.insert(score_component);
 }
