@@ -7,8 +7,9 @@ use crate::components::block;
 use crate::components::block::*;
 use crate::components::score::Score;
 use crate::util::rand;
-use amethyst::core::ecs::{ReadStorage, Join};
+use amethyst::core::ecs::{ReadStorage, Join, WriteStorage};
 use std::ops::Deref;
+use amethyst::ui::UiText;
 
 const BLOCK_SPAWN_INTERVAL: i32 = 3;
 

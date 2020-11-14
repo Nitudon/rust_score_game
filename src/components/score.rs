@@ -1,7 +1,8 @@
 use amethyst::ecs::prelude::*;
 use amethyst::core::math::Id;
+use amethyst::ui::{UiLabel, UiText};
 
-#[derive(Default,Clone)]
+#[derive(Default)]
 pub struct Score {
     pub score : i32,
     pub time : f32,
@@ -20,7 +21,7 @@ impl Score {
     }
 }
 
-impl Component for Score {
+impl Component for Score  {
     type Storage = VecStorage<Self>;
 }
 

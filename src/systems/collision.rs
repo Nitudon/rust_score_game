@@ -30,12 +30,12 @@ impl<'a> System<'a> for CollisionSystem {
                 let is_hit = is_hit(player_transform, &player.size, block_transform, &block.size);
                 if is_hit {
                     if block.is_rock {
+                        score.is_dead = true;
+                    } else {
                         if score.is_dead {
                             return;
                         }
                         score.score += 100;
-                    } else {
-                        score.is_dead = true;
                     }
                     entities.delete(entity);
                 }
