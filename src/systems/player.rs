@@ -22,7 +22,7 @@ impl<'a> System<'a> for PlayerSystem {
     );
 
     fn run(&mut self, (mut transforms, mut players, score, input): Self::SystemData) {
-        if !score.is_start {
+        if !score.is_start || score.is_dead  {
             return;
         }
         

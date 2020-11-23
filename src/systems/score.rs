@@ -28,7 +28,7 @@ impl<'a> System<'a> for ScoreSystem {
     );
 
     fn run(&mut self, (mut score, apple_resource, rock_resource, time, lazy_update, entities): Self::SystemData) {
-        if !score.is_start {
+        if !score.is_start || score.is_dead {
             return;
         }
         

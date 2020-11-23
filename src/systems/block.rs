@@ -18,7 +18,7 @@ impl<'a> System<'a> for BlockSystem {
     );
 
     fn run(&mut self, (mut transforms, mut blocks, score, entities): Self::SystemData) {
-        if !score.is_start {
+        if !score.is_start || score.is_dead  {
             return;
         }
         

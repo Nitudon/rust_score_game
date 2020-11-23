@@ -3,6 +3,7 @@ use crate::components::*;
 use crate::components::score::Score;
 use amethyst::ui::{UiText, UiFinder};
 use amethyst::core::ecs::Entity;
+use crate::state::game_end::GameEnd;
 
 #[derive(Default)]
 pub struct Game {
@@ -23,6 +24,10 @@ impl SimpleState for Game {
 
     fn update(&mut self, state_data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
         let StateData { world, .. } = state_data;
+        
+        if world.fetch::<Score>().is_dead {
+            return Trans::Switch(Box::new(GameEnd::default()))
+        }
 
         if self.score_text.is_none() {
             world.exec(|finder: UiFinder<'_>| {
@@ -32,11 +37,10 @@ impl SimpleState for Game {
             });
         }
         
-        let score = world.fetch::<Score>().score;
         let mut ui_text = world.write_storage::<UiText>();
         {
             if let Some(score_text) = self.score_text.and_then(|entity| ui_text.get_mut(entity)) {
-                score_text.text = score.to_string(); 
+                score_text.text = world.fetch::<Score>().score.to_string(); 
             }
         }
         

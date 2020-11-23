@@ -21,7 +21,7 @@ impl<'a> System<'a> for CollisionSystem {
     );
 
     fn run(&mut self, (mut score, transforms, blocks, players, entities): Self::SystemData) {
-        if !score.is_start {
+        if !score.is_start || score.is_dead  {
             return;
         }
         
