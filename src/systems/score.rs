@@ -10,11 +10,24 @@ use crate::util::rand;
 use amethyst::core::ecs::{ReadStorage, Join, WriteStorage};
 use std::ops::Deref;
 use amethyst::ui::UiText;
+use std::cmp::max;
 
-const BLOCK_SPAWN_INTERVAL: i32 = 3;
+const DEFAULT_SPAWN_INTERVAL: f32 = 2.0;
+const MIN_SPAWN_INTERVAL: f32 = 0.15;
+const CHANGE_SPAWN_INTERVAL: f32 = 0.05;
 
 pub struct ScoreSystem {
-    pub spawn_interval: i32,
+    pub spawn_interval: f32,
+    pub spawn_count: i32,
+}
+
+impl ScoreSystem {
+    pub fn new() -> ScoreSystem {
+        ScoreSystem {
+            spawn_interval: DEFAULT_SPAWN_INTERVAL,
+            spawn_count: 0
+        }
+    }
 }
 
 impl<'a> System<'a> for ScoreSystem {
@@ -33,10 +46,14 @@ impl<'a> System<'a> for ScoreSystem {
         }
         
         score.time += time.delta_seconds();
-        let interval = (score.time as i32) / BLOCK_SPAWN_INTERVAL;
-        if self.spawn_interval < interval
+        if self.spawn_interval < score.time
         {
-            self.spawn_interval = interval;
+            let mut interval = DEFAULT_SPAWN_INTERVAL - CHANGE_SPAWN_INTERVAL * (self.spawn_count as f32);
+            if interval < MIN_SPAWN_INTERVAL {
+                interval = MIN_SPAWN_INTERVAL;
+            }
+            self.spawn_interval += interval;
+            self.spawn_count += 1;
             if rand::create_rand_range() > 0.8 {
                 block::create_block(rock_resource.deref(), &lazy_update, &entities);
             } else {

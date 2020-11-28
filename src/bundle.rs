@@ -12,9 +12,7 @@ pub struct GameBundle;
 
 impl<'a, 'b> SystemBundle<'a, 'b> for GameBundle {
     fn build(self, _world: &mut World, builder: &mut DispatcherBuilder<'a, 'b>) -> Result<()> {
-        let score_system = ScoreSystem{
-            spawn_interval: 0,
-        };
+        let score_system = ScoreSystem::new();
 
         builder.add(player::PlayerSystem, "player_system", &[]);
         builder.add(block::BlockSystem, "block_system", &[]);
