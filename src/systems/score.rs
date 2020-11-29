@@ -13,8 +13,10 @@ use amethyst::ui::UiText;
 use std::cmp::max;
 
 const DEFAULT_SPAWN_INTERVAL: f32 = 2.0;
-const MIN_SPAWN_INTERVAL: f32 = 0.15;
+const MIN_SPAWN_INTERVAL: f32 = 0.4;
 const CHANGE_SPAWN_INTERVAL: f32 = 0.05;
+const BLOCK_COUNT_INTERVAL: i32 = 5;
+const BLOCK_COUNT_MAX: i32 = 5;
 
 pub struct ScoreSystem {
     pub spawn_interval: f32,
@@ -54,10 +56,17 @@ impl<'a> System<'a> for ScoreSystem {
             }
             self.spawn_interval += interval;
             self.spawn_count += 1;
-            if rand::create_rand_range() > 0.8 {
-                block::create_block(rock_resource.deref(), &lazy_update, &entities);
-            } else {
-                block::create_block(apple_resource.deref(), &lazy_update, &entities);
+            let mut block_count = 1 + self.spawn_count / BLOCK_COUNT_INTERVAL;
+            if block_count > BLOCK_COUNT_MAX {
+                block_count = BLOCK_COUNT_MAX;
+            }
+
+            for _ in 0..block_count {
+                if rand::create_rand_range() > 0.6 {
+                    block::create_block(rock_resource.deref(), &self, &lazy_update, &entities);
+                } else {
+                    block::create_block(apple_resource.deref(), &self, &lazy_update, &entities);
+                } 
             }
         }
     }

@@ -11,13 +11,15 @@ use rand::prelude::*;
 use crate::asset::sprite_sheet;
 use crate::components::object::Object;
 use crate::util::rand::*;
-use amethyst::renderer::rendy::wsi::winit::VirtualKeyCode::S;
 use std::cmp::{min, max};
+use crate::systems::score::ScoreSystem;
 
 const BLOCK_HEIGHT: f32 = 60.0;
 const BLOCK_WIDTH: f32 = 60.0;
 const BLOCK_SCALE: f32 = 0.6;
 const BLOCK_SPEED_BASE: f32 = 3.;
+const BLOCK_SPEED_CHANGE: f32 = 0.05;
+const BLOCK_SPEED_MAX: f32 = 7.0;
 const BLOCK_START_X_MIN: f32 = 0.0;
 const BLOCK_START_X_MAX: f32 = 960.0;
 const BLOCK_START_Y: f32 = 540.0;
@@ -100,7 +102,7 @@ impl Component for Block {
     type Storage = DenseVecStorage<Self>;
 }
 
-pub fn create_block(resource: &dyn BlockResource, update: &LazyUpdate, entities: &Entities) {
+pub fn create_block(resource: &dyn BlockResource, score :&ScoreSystem, update: &LazyUpdate, entities: &Entities) {
     let entity = entities.create();
     
     let mut block_transform = Transform::default();
@@ -113,7 +115,11 @@ pub fn create_block(resource: &dyn BlockResource, update: &LazyUpdate, entities:
         rnd_speed = 0.8;
     }
     let mut block = resource.block().clone();
-    block.set_velocity(0., rnd_speed * BLOCK_SPEED_BASE);
+    let mut speed = BLOCK_SPEED_BASE + score.spawn_count as f32 * BLOCK_SPEED_CHANGE;
+    if speed > BLOCK_SPEED_MAX {
+        speed = BLOCK_SPEED_MAX;
+    }
+    block.set_velocity(0., rnd_speed * speed);
     block_transform.set_scale(Vector3::new(BLOCK_SCALE, BLOCK_SCALE, 1.0));
     
     update.insert(entity, block);
